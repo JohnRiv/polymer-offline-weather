@@ -22,45 +22,69 @@ limitations under the License.
     <link rel="icon" href="../common/icon.png">
 
     <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../common/elements.html">
+    <!-- TODO: Import the common elements -->
 
     <!-- See https://www.polymer-project.org/1.0/docs/devguide/styling.html#style-modules -->
-    <style is="custom-style" include="shared-styles"></style>
+    <!-- TODO: Include the shared styles from the common elements -->
   </head>
 
-  <body class="fit vertical layout center-center">
-    <template is="dom-bind" id="t">
-      <template is="dom-if" if="[[coordinates]]">
-        <iron-ajax id="weather-ajax"
-                   auto
-                   loading="{{activeRequest}}"
-                   url="[[weatherApiUrl]]"
-                   params="[[_calculateWeatherParams(coordinates.latitude, coordinates.longitude)]]"
-                   handle-as="json"
-                   last-response="{{weatherResponse}}">
-        </iron-ajax>
-      </template>
+  <!-- TODO: Add Polymer's layout classes (i.e. Flexbox helpers) to the <body> tag.
+       See https://elements.polymer-project.org/guides/flex-layout for a guide
+       and https://github.com/PolymerElements/iron-flex-layout/blob/master/iron-flex-layout-classes.html
+       for all of the available classes and what they do -->
+  <body class="">
+    <!-- TODO: create an auto-binding template with an id of "t" (that's what the <script> tag is looking for)
+         See https://www.polymer-project.org/1.0/docs/devguide/templates#dom-bind -->
+      <!-- TODO: Notice in the <script> below that this template has a "coordinates" property added to it.
+           Create another template here that stamps its contents into the DOM
+           only when the "coordinates" property becomes truthy.
+           See https://www.polymer-project.org/1.0/docs/devguide/templates#dom-if -->
+        <!-- TODO: inside of that conditional template, add
+             <iron-ajax id="weather-ajax" loading="{{activeRequest}}"></iron-ajax> inside of it,
+             and add additional attributes to that <iron-ajax> element to accomplish the following:
+             - Automatically perform the Ajax request
+             - Set the URL target of the request to the template's weatherApiUrl property
+             - Set the query parameters for the URL target using the template's
+               _calculateWeatherParams computing function
+               ^ see https://www.polymer-project.org/1.0/docs/devguide/data-binding#annotated-computed
+             - Store the reponse data as XHR.responseText parsed as JSON
+             - Expose the lastResponse as "weatherResponse" so other elements can consume it
+             See https://elements.polymer-project.org/elements/iron-ajax -->
 
+      <!-- TODO: hide this <paper-progress> element if there is no active request
+           See https://www.polymer-project.org/1.0/docs/devguide/templates#dom-if
+           (but don't use dom-if, there's a better way! -->
       <paper-progress id="request-progress"
-                      indeterminate
-                      hidden$="[[!activeRequest]]">
+                      indeterminate>
       </paper-progress>
 
-      <template is="dom-if" if="[[weatherResponse]]">
+      <!-- TODO: Create another template here that wraps the remaining HTML content and
+           stamps its contents into the DOM only when the weatherResponse" property becomes truthy. -->
         <div class="horizontal justified layout">
           <h3 id="location">
             Weather for
-            <span>[[_calculateLocationString(weatherResponse.query.results.channel.location)]]</span>
+            <!-- TODO: in this <span>, use the the template's _calculateLocationString computing function
+                 to display the properly formatted location.
+                 The data for the location is available as weatherResponse.query.results.channel.location
+                 See https://www.polymer-project.org/1.0/docs/devguide/data-binding#annotated-computed -->
+            <span></span>
           </h3>
+          <!-- TODO: If the user has denied geolocation permission or location data is currently being fetched,
+               disable the "My Location" button.
+               Hint: the logic in the <script> tag below exposes a property that has that logic built already,
+               you just have to use it here to disable it.
+               See https://elements.polymer-project.org/elements/paper-icon-button -->
           <paper-icon-button icon="maps:my-location"
                              alt="Detect current location"
-                             disabled$="[[disableLocationButton]]"
                              on-click="_getCurrentPosition">
           </paper-icon-button>
         </div>
 
-        <iron-icon id="weather-icon"
-                   icon="[[_calculateWeatherIcon(weatherResponse.query.results.channel.item.condition.code)]]">
+        <!-- TODO: Display the appropriate icon based on the response's condition code, which is available as
+             weatherResponse.query.results.channel.item.condition.code
+             The _calculateWeatherIcon computing function with give you the name of the icon to use
+             See https://elements.polymer-project.org/elements/paper-icon-button -->
+        <iron-icon id="weather-icon">
         </iron-icon>
 
         <h2>
@@ -81,8 +105,6 @@ limitations under the License.
         <a href="https://www.yahoo.com/?ilc=401" target="_blank">
           <img src="https://poweredby.yahoo.com/purple.png">
         </a>
-      </template>
-    </template>
 
     <script>
       var t = document.querySelector('#t');
