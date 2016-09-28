@@ -35,10 +35,10 @@ limitations under the License.
                             auto-register
                             reload-on-install>
         <platinum-sw-import-script href="weather-fetch-handler.js"></platinum-sw-import-script>
-        <platinum-sw-fetch handler="weatherFetchHandler"
-                           path="/v1/public/yql"
-                           origin="https://query.yahooapis.com">
-        </platinum-sw-fetch>
+        <!-- TODO: Add a <platinum-sw-fetch> element that does the following:
+             - use "weatherFetchHandler" (from weather-fetch-handler.js) for handling requests
+             - Apply the handler to requests at https://query.yahooapis.com/v1/public/yql*
+             See https://elements.polymer-project.org/elements/platinum-sw?active=platinum-sw-fetch -->
         <platinum-sw-cache default-cache-strategy="fastest"></platinum-sw-cache>
       </platinum-sw-register>
 
