@@ -36,6 +36,10 @@ limitations under the License.
                             reload-on-install>
         <platinum-sw-cache default-cache-strategy="fastest"></platinum-sw-cache>
       </platinum-sw-register>
+      <!-- TODO: As you can see, the Platinum Service Worker Elements were added above.
+           To make that functional, you need to add some code to sw-import.js
+           See the "Top-level sw-import.js" section of https://github.com/PolymerElements/platinum-sw
+           for info on what code to add there -->
 
       <template is="dom-if" if="[[coordinates]]">
         <iron-ajax id="weather-ajax"
